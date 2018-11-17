@@ -9,5 +9,19 @@ module Types
     def test_field
       "Hello World!"
     end
+
+    field :me, UserType, null: true,
+      description: "The current user"
+    
+    def me
+      User.first
+    end
+
+    field :projects, [ProjectType], null: true,
+      description: "the projects for current user"
+
+    def projects
+      Project.all
+    end
   end
 end
