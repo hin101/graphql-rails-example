@@ -6,5 +6,8 @@ module Types
     def test_field
       "Hello World"
     end
+
+    field :register_user, mutation: Mutations::RegisterUser
+    field :sign_in_user, mutation: Mutations::SignInUser
   end
 end

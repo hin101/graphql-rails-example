@@ -5,5 +5,6 @@ module Types
     
     field :id, Integer, null: false
     field :email, String, null: false
+    field :authentication_token, String, null: true
   end
 end

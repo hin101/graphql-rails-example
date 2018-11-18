@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :projects
+
+  def generate_token
+    authentication_token = SecureRandom.uuid
+  end
 end

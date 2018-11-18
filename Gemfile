@@ -15,6 +15,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'faker'
 gem 'graphql'
+gem 'devise-token_authenticatable'
 
 
 # Reduces boot times through caching; required in config/boot.rb
