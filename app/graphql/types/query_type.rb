@@ -21,7 +21,11 @@ module Types
       description: "the projects for current user"
 
     def projects
-      Project.all
+      if context[:current_user].present?
+        Project.all
+      else
+        []
+      end
     end
   end
 end

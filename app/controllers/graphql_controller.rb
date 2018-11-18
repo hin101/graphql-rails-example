@@ -5,7 +5,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: current_user,
     }
     result = GraphqlTestAppSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -39,5 +39,20 @@ class GraphqlController < ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+  end
+
+  private
+
+  def current_user
+    @user ||= User.find_for_database_authentication(email: email, authentication_token: authentication_token)
+  end
+
+  def authentication_token
+    return request.headers['Authorization'].split(' ').last if request.headers['Authorization'].present?
+    ''
+  end
+
+  def email
+    request.headers['Email'].presence || ''
   end
 end

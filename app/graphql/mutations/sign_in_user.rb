@@ -8,20 +8,14 @@ module Mutations
     type Types::UserType
 
     def resolve(email:, password:)
-      @user = User.find_for_database_authentication(email: email)
-      if @user.present? && @user.valid_password?(password)
-        update_user_token(@user) unless @user.authentication_token.present?
-        return OpenStruct.new(authentication_token: @user.authentication_token)
+      user = User.find_for_database_authentication(email: email)
+      if user.present? && user.valid_password?(password)
+        user.ensure_authentication_token
+        user.save
       else
         GraphQL::ExecutionError.new('Incorrect Email/Password')
       end
-      @user
-    end
-
-    private
-
-    def update_user_token(user)
-      user.update_attributes(authentication_token: SecureRandom.uuid)
+      user.attributes
     end
   end
 end
